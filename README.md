@@ -7,6 +7,7 @@
 Audio Horror, readings of lovecraftian stories from HorrorBabble
 
 ![](./gui.png)
+![](./gui.gif)
 
 ## Installation Notes
 
