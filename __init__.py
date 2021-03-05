@@ -41,7 +41,7 @@ class HorrorBabbleSkill(VideoCollectionSkill):
             score += 10
             if self.voc_match(phrase, "horror"):
                 score += 30
-                self.CPS_extend_timeout(1)
+                self.extend_timeout(1)
 
         if self.voc_match(phrase, "horrorstory"):
             score += 10
