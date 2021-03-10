@@ -1,0 +1,22 @@
+{
+  "name": "HorrorBabble Skill",
+  "skillname": "skill-horrorbabble\"",
+  "authorname": "JarbasSkills",
+  "foldername": "",
+  "url": "https://github.com/JarbasSkills/skill-horrorbabble",
+  "branch": "v0.1",
+  "desktopFile": true,
+  "warning": "",
+  "systemDeps": false,
+  "platforms": [
+    "arm",
+    "arm64",
+    "i386",
+    "x86_64",
+    "ia64"
+  ],
+  "examples": [
+    "open horror babble menu",
+    "play horror audio books"
+  ]
+}
