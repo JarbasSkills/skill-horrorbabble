@@ -3,8 +3,7 @@ from os.path import join, dirname, basename
 from mycroft.skills.core import intent_file_handler
 from pyvod import Collection, Media
 from os.path import join, dirname, basename
-from ovos_workshop.frameworks.playback import CommonPlayMediaType, CommonPlayPlaybackType, \
-    CommonPlayMatchConfidence
+from ovos_plugin_common_play.ocp import MediaType, PlaybackType, MatchConfidence
 from ovos_workshop.skills.video_collection import VideoCollectionSkill
 import biblioteca
 
@@ -13,9 +12,9 @@ class HorrorBabbleSkill(VideoCollectionSkill):
 
     def __init__(self):
         super().__init__("HorrorBabble")
-        self.supported_media = [CommonPlayMediaType.GENERIC,
-                                CommonPlayMediaType.AUDIOBOOK,
-                                CommonPlayMediaType.VIDEO]
+        self.supported_media = [MediaType.GENERIC,
+                                MediaType.AUDIOBOOK,
+                                MediaType.VIDEO]
         self.default_image = join(dirname(__file__), "ui", "bg.png")
         self.skill_logo = join(dirname(__file__), "ui", "horrorbabble_icon.png")
         self.skill_icon = join(dirname(__file__), "ui", "horrorbabble_icon.png")
@@ -25,8 +24,8 @@ class HorrorBabbleSkill(VideoCollectionSkill):
         logo = join(dirname(__file__), "res",  "horrorbabble_logo.png")
         # load video catalog
         self.media_collection = Collection("horrorbabble", logo=logo, db_path=path)
-        self.media_type = CommonPlayMediaType.AUDIOBOOK
-        self.playback_type = CommonPlayPlaybackType.AUDIO
+        self.media_type = MediaType.AUDIOBOOK
+        self.playback_type = PlaybackType.AUDIO
 
     def get_intro_message(self):
         self.speak_dialog("intro")
@@ -40,7 +39,7 @@ class HorrorBabbleSkill(VideoCollectionSkill):
         score = 0
 
         if self.voc_match(phrase, "audiobook") or\
-                media_type == CommonPlayMediaType.AUDIOBOOK:
+                media_type == MediaType.AUDIOBOOK:
             score += 10
             if self.voc_match(phrase, "horror"):
                 score += 30
