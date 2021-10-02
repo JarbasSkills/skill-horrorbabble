@@ -1,11 +1,10 @@
-from pyvod import Collection
-from os.path import join, dirname, basename
-from mycroft.skills.core import intent_file_handler
-from pyvod import Collection, Media
-from os.path import join, dirname, basename
-from ovos_plugin_common_play.ocp import MediaType, PlaybackType, MatchConfidence
-from ovos_workshop.skills.video_collection import VideoCollectionSkill
+from os.path import join, dirname
+
 import biblioteca
+from mycroft.skills.core import intent_file_handler
+from ovos_plugin_common_play.ocp import MediaType, PlaybackType
+from ovos_workshop.skills.video_collection import VideoCollectionSkill
+from pyvod import Collection
 
 
 class HorrorBabbleSkill(VideoCollectionSkill):
@@ -16,14 +15,17 @@ class HorrorBabbleSkill(VideoCollectionSkill):
                                 MediaType.AUDIOBOOK,
                                 MediaType.VIDEO]
         self.default_image = join(dirname(__file__), "ui", "bg.png")
-        self.skill_logo = join(dirname(__file__), "ui", "horrorbabble_icon.png")
-        self.skill_icon = join(dirname(__file__), "ui", "horrorbabble_icon.png")
+        self.skill_logo = join(dirname(__file__), "ui",
+                               "horrorbabble_icon.png")
+        self.skill_icon = join(dirname(__file__), "ui",
+                               "horrorbabble_icon.png")
         self.default_bg = join(dirname(__file__), "ui", "bg.png")
         base_folder = biblioteca.download("ytcat_horrorbabble")
         path = join(base_folder, "horrorbabble.jsondb")
-        logo = join(dirname(__file__), "res",  "horrorbabble_logo.png")
+        logo = join(dirname(__file__), "res", "horrorbabble_logo.png")
         # load video catalog
-        self.media_collection = Collection("horrorbabble", logo=logo, db_path=path)
+        self.media_collection = Collection("horrorbabble", logo=logo,
+                                           db_path=path)
         self.media_type = MediaType.AUDIOBOOK
         self.playback_type = PlaybackType.AUDIO
 
@@ -38,12 +40,12 @@ class HorrorBabbleSkill(VideoCollectionSkill):
     def match_media_type(self, phrase, media_type):
         score = 0
 
-        if self.voc_match(phrase, "audiobook") or\
+        if self.voc_match(phrase, "audiobook") or \
                 media_type == MediaType.AUDIOBOOK:
             score += 10
             if self.voc_match(phrase, "horror"):
                 score += 30
-                self.CPS_extend_timeout(1)
+                self.extend_timeout(1)
 
         if self.voc_match(phrase, "horrorstory"):
             score += 10
