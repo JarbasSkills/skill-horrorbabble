@@ -4,7 +4,7 @@
   "authorname": "JarbasSkills",
   "foldername": "",
   "url": "https://github.com/JarbasSkills/skill-horrorbabble",
-  "branch": "v0.1",
+  "branch": "dev",
   "desktopFile": true,
   "warning": "",
   "systemDeps": false,
@@ -17,6 +17,7 @@
   ],
   "examples": [
     "open horror babble menu",
+    "play horror babble",
     "play horror audio books"
   ]
 }

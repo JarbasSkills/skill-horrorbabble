@@ -1,5 +1,0 @@
-{
-    "android_icon": "/res/icon/horrorbabble_icon.png",
-    "android_name": "Horror Babble",
-    "android_handler": "skill-horrorbabble.jarbasskills.home"
-}

@@ -16,6 +16,7 @@ this requires [skill-better-playback-control](https://github.com/JarbasSkills/sk
 ## Examples 
 
 * "open horror babble menu"
+* "play horror babble"
 * "play horror audio books"
 
 # Platform support
