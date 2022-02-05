@@ -1,10 +1,11 @@
 from os.path import join, dirname
-import random
+
 from ovos_plugin_common_play.ocp import MediaType, PlaybackType
+from ovos_utils.log import LOG
 from ovos_utils.parse import fuzzy_match
 from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill, \
     ocp_search, ocp_featured_media
-from youtube_archivist import YoutubeArchivist
+from youtube_archivist import YoutubeMonitor
 
 
 class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
@@ -14,31 +15,22 @@ class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
                                 MediaType.AUDIOBOOK]
         self.skill_icon = join(dirname(__file__), "ui", "horrorbabble_icon.png")
         self.default_bg = join(dirname(__file__), "ui", "bg.png")
-        self.archive = YoutubeArchivist(db_name="horrorbabble")
+        self.archive = YoutubeMonitor(db_name="horrorbabble",
+                                      min_duration=30 * 60,
+                                      logger=LOG)
 
     def initialize(self):
-        if len(self.archive.db):
-            # update db sometime in the next 12 hours, randomized to avoid a huge network load every boot
-            # (every skill updating at same time)
-            self.schedule_event(self._scheduled_update, random.randint(3600, 12 * 3600))
-        else:
-            # no database, sync right away
-            self.schedule_event(self._scheduled_update, 5)
-
-    def _scheduled_update(self):
-        self.update_db()
-        self.schedule_event(self._scheduled_update, random.randint(3600, 12 * 3600))  # every 6 hours
-
-    def update_db(self):
         url = "https://www.youtube.com/channel/UCIvp_SM7UrKuFgR3W77fWcg"
-        self.archive.archive_channel(url)
-        self.archive.remove_below_duration(30)  # 30 minutes minimum duration
-        self.archive.remove_unavailable()  # check if video is still available
+        bootstrap = f"https://raw.githubusercontent.com/OpenJarbas/streamindex/main/{self.archive.db.name}.json"
+        self.archive.bootstrap_from_url(bootstrap)
+        self.archive.monitor(url)
+        self.archive.setDaemon(True)
+        self.archive.start()
 
     # matching
     def match_skill(self, phrase, media_type):
         score = 0
-        if self.voc_match(phrase, "audiobook") or\
+        if self.voc_match(phrase, "audiobook") or \
                 media_type == MediaType.AUDIOBOOK:
             score += 10
             if self.voc_match(phrase, "horror"):
@@ -65,21 +57,10 @@ class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
         return min(100, score)
 
     def get_playlist(self, score=50):
-        pl = [{
-            "title": video["title"],
-            "image": video["thumbnail"],
-            "match_confidence": 70,
-            "media_type": MediaType.AUDIOBOOK,
-            "uri": "youtube//" + url,
-            "playback": PlaybackType.AUDIO,
-            "skill_icon": self.skill_icon,
-            "bg_image": video["thumbnail"],
-            "skill_id": self.skill_id
-        } for url, video in self.archive.db.items()]
         return {
             "match_confidence": score,
             "media_type": MediaType.AUDIOBOOK,
-            "playlist": pl,
+            "playlist": self.featured_media(),
             "playback": PlaybackType.AUDIO,
             "skill_icon": self.skill_icon,
             "image": self.skill_icon,
@@ -115,7 +96,17 @@ class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
 
     @ocp_featured_media()
     def featured_media(self):
-        return self.get_playlist()['playlist']
+        return [{
+            "title": video["title"],
+            "image": video["thumbnail"],
+            "match_confidence": 70,
+            "media_type": MediaType.AUDIOBOOK,
+            "uri": "youtube//" + url,
+            "playback": PlaybackType.AUDIO,
+            "skill_icon": self.skill_icon,
+            "bg_image": video["thumbnail"],
+            "skill_id": self.skill_id
+        } for url, video in self.archive.db.items()]
 
 
 def create_skill():
