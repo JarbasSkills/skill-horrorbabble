@@ -4891,5 +4891,20 @@
             "Cthulhu Mythos"
         ],
         "thumbnail": "https://i.ytimg.com/vi/sKyEP--dZJQ/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=Gw03cdGgauA": {
+        "author": "HorrorBabble",
+        "title": "\"The Canal\" by Everil Worrell / HorrorBabble's VAMPIRES",
+        "url": "https://youtube.com/watch?v=Gw03cdGgauA",
+        "duration": 3508,
+        "upload_ts": 1639526400.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/Gw03cdGgauA/sddefault.jpg"
     }
 }
