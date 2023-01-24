@@ -4906,5 +4906,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/Gw03cdGgauA/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=i1S2gzYuSsg": {
+        "author": "HorrorBabble",
+        "title": "\"The Red Balloon\" / A Weird Tale by Q. Patrick",
+        "url": "https://youtube.com/watch?v=i1S2gzYuSsg",
+        "duration": 2064,
+        "upload_ts": 1674432000.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/i1S2gzYuSsg/sddefault.jpg"
     }
 }
