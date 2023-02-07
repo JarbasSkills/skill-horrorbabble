@@ -4921,5 +4921,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/i1S2gzYuSsg/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=G1M-Lni1B6g": {
+        "author": "HorrorBabble",
+        "title": "\"The Shingler\" by E. L. Wright / A HorrorBabble Production",
+        "url": "https://youtube.com/watch?v=G1M-Lni1B6g",
+        "duration": 2262,
+        "upload_ts": 1675641600.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/G1M-Lni1B6g/sddefault.jpg"
     }
 }
