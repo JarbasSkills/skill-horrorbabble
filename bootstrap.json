@@ -4936,5 +4936,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/G1M-Lni1B6g/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=81RSQCNqLfM": {
+        "author": "HorrorBabble",
+        "title": "\"Croatan\" / A Tale of Roanoke by Malcolm Ferguson",
+        "url": "https://youtube.com/watch?v=81RSQCNqLfM",
+        "duration": 2474,
+        "upload_ts": 1676246400.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/81RSQCNqLfM/sddefault.jpg"
     }
 }
