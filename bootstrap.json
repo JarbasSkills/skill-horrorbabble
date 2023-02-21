@@ -4951,5 +4951,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/81RSQCNqLfM/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=1QAxlFTPsCs": {
+        "author": "HorrorBabble",
+        "title": "\"Six Flights to Terror\" by Manly Banister / A HorrorBabble Production",
+        "url": "https://youtube.com/watch?v=1QAxlFTPsCs",
+        "duration": 1894,
+        "upload_ts": 1676851200.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/1QAxlFTPsCs/sddefault.jpg"
     }
 }
