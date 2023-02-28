@@ -4966,5 +4966,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/1QAxlFTPsCs/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=NDI1WjjzCfU": {
+        "author": "HorrorBabble",
+        "title": "Lovecraft Less Travelled: 7 Obscure Stories",
+        "url": "https://youtube.com/watch?v=NDI1WjjzCfU",
+        "duration": 7216,
+        "upload_ts": 1677456000.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/NDI1WjjzCfU/sddefault.jpg"
     }
 }
