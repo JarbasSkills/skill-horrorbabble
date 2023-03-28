@@ -4996,5 +4996,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/pJikHdL2ODA/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=Q0tPzoh6s6E": {
+        "author": "HorrorBabble",
+        "title": "\"Night of Impossible Shadows\" by Allison V. Harding",
+        "url": "https://youtube.com/watch?v=Q0tPzoh6s6E",
+        "duration": 2718,
+        "upload_ts": 1679875200.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/Q0tPzoh6s6E/sddefault.jpg"
     }
 }
