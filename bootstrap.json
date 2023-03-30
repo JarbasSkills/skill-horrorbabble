@@ -5011,5 +5011,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/Q0tPzoh6s6E/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=8cMysiJwa3A": {
+        "author": "HorrorBabble",
+        "title": "\"The House Beyond Midnight\" by Allison V. Harding / A HorrorBabble Production",
+        "url": "https://youtube.com/watch?v=8cMysiJwa3A",
+        "duration": 2572,
+        "upload_ts": 1680048000.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/8cMysiJwa3A/sddefault.jpg"
     }
 }
