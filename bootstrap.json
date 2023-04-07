@@ -5056,5 +5056,20 @@
             "Horror"
         ],
         "thumbnail": "https://i.ytimg.com/vi/0BWwe0oDiSM/sddefault.jpg"
+    },
+    "https://youtube.com/watch?v=yaDS3TcvFbQ": {
+        "author": "HorrorBabble",
+        "title": "\"The Nameless City\" by H. P. Lovecraft / The First Cthulhu Mythos Story",
+        "url": "https://youtube.com/watch?v=yaDS3TcvFbQ",
+        "duration": 2314,
+        "upload_ts": 1680739200.0,
+        "tags": [
+            "HorrorBabble",
+            "Original Production",
+            "Fiction",
+            "Audiobook",
+            "Horror"
+        ],
+        "thumbnail": "https://i.ytimg.com/vi/yaDS3TcvFbQ/sddefault.jpg"
     }
 }
