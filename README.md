@@ -9,9 +9,6 @@ Audio Horror, readings of lovecraftian stories from HorrorBabble
 ![](./gui.png)
 ![](./gui.gif)
 
-## Installation Notes
-
-this requires [skill-better-playback-control](https://github.com/JarbasSkills/skill-better-playback-control), it will blacklist and replace the official mycroft skill
 
 ## Examples 
 
