@@ -10,14 +10,14 @@ from youtube_archivist import YoutubeMonitor
 
 
 class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
-    def __init__(self, *args, *kwargs):
+    def __init__(self, *args, **kwargs):
         self.supported_media = [MediaType.AUDIOBOOK]
         self.skill_icon = join(dirname(__file__), "ui", "horrorbabble_icon.png")
         self.default_bg = join(dirname(__file__), "ui", "bg.png")
         self.archive = YoutubeMonitor(db_name="horrorbabble",
                                       min_duration=30 * 60,
                                       logger=LOG)
-        super().__init__(*args, *kwargs)
+        super().__init__(*args, **kwargs)
 
     def initialize(self):
         self._sync_db()
