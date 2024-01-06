@@ -1,11 +1,10 @@
 from os.path import join, dirname
 import random
 
-from ovos_plugin_common_play.ocp import MediaType, PlaybackType
+from ovos_utils.ocp import MediaType, PlaybackType
 from ovos_utils.log import LOG
-from ovos_utils.parse import fuzzy_match
-from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill, \
-    ocp_search, ocp_featured_media
+from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill
+from ovos_workshop.decorators.ocp import ocp_search, ocp_featured_media
 from youtube_archivist import YoutubeMonitor
 
 
