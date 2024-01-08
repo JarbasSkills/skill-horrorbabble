@@ -1,63 +1,58 @@
-from os.path import join, dirname
 import random
+from os.path import join, dirname
 
-from ovos_plugin_common_play.ocp import MediaType, PlaybackType
-from ovos_utils.log import LOG
-from ovos_utils.parse import fuzzy_match
-from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill, \
-    ocp_search, ocp_featured_media
-from youtube_archivist import YoutubeMonitor
+import requests
+from json_database import JsonStorageXDG
+
+from ovos_utils.ocp import MediaType, PlaybackType
+from ovos_workshop.decorators.ocp import ocp_search, ocp_featured_media
+from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill
 
 
 class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
-    def __init__(self):
-        super().__init__("HorrorBabble")
-        self.supported_media = [MediaType.GENERIC,
-                                MediaType.AUDIOBOOK]
+    def __init__(self, *args, **kwargs):
+        self.supported_media = [MediaType.AUDIOBOOK]
         self.skill_icon = join(dirname(__file__), "ui", "horrorbabble_icon.png")
         self.default_bg = join(dirname(__file__), "ui", "bg.png")
-        self.archive = YoutubeMonitor(db_name="horrorbabble",
-                                      min_duration=30 * 60,
-                                      logger=LOG)
+        self.archive = JsonStorageXDG("HorrorBabble", subfolder="OCP")
+        super().__init__(*args, **kwargs)
 
     def initialize(self):
-        bootstrap = "https://github.com/JarbasSkills/skill-horrorbabble/raw/dev/bootstrap.json"
-        self.archive.bootstrap_from_url(bootstrap)
-        self.schedule_event(self._sync_db, random.randint(3600, 24 * 3600))
+        self._sync_db()
+        self.load_ocp_keywords()
 
     def _sync_db(self):
-        url = "https://www.youtube.com/channel/UCIvp_SM7UrKuFgR3W77fWcg"
-        self.archive.parse_videos(url)
-        self.schedule_event(self._sync_db, random.randint(3600, 24*3600))
+        bootstrap = "https://github.com/JarbasSkills/skill-horrorbabble/raw/dev/bootstrap.json"
+        data = requests.get(bootstrap).json()
+        self.archive.merge(data)
+        self.schedule_event(self._sync_db, random.randint(3600, 24 * 3600))
 
-    # matching
-    def match_skill(self, phrase, media_type):
-        score = 0
-        if self.voc_match(phrase, "audiobook") or \
-                media_type == MediaType.AUDIOBOOK:
-            score += 10
-            if self.voc_match(phrase, "horror"):
-                score += 30
-        if self.voc_match(phrase, "horrorstory"):
-            score += 10
-        if self.voc_match(phrase, "horrorbabble"):
-            score += 80
-        return score
-
-    def normalize_title(self, title):
-        title = title.lower().strip()
-        title = self.remove_voc(title, "audiobook")
-        title = self.remove_voc(title, "horrorbabble")
-        title = title.replace("|", "").replace('"', "") \
-            .replace(':', "").replace('”', "").replace('“', "") \
-            .strip()
-        return " ".join(
-            [w for w in title.split(" ") if w])  # remove extra spaces
-
-    def calc_score(self, phrase, match, base_score=0):
-        score = base_score
-        score += 100 * fuzzy_match(phrase.lower(), match["title"].lower())
-        return min(100, score)
+    def load_ocp_keywords(self):
+        book_names = []
+        book_authors = []
+        for url, data in self.archive.items():
+            t = data["title"].split("/")[0].strip()
+            if " by " in t:
+                title, author = t.split(" by ")
+                title = title.replace('"', "").strip()
+                author = author.split("(")[0].strip()
+                book_names.append(title)
+                book_authors.append(author)
+                if " " in author:
+                    book_authors += author.split(" ")
+            elif t.startswith('"') and t.endswith('"'):
+                book_names.append(t[1:-1])
+            else:
+                book_names.append(t)
+        self.register_ocp_keyword(MediaType.AUDIOBOOK,
+                                  "book_author",
+                                  list(set(book_authors)))
+        self.register_ocp_keyword(MediaType.AUDIOBOOK,
+                                  "book_name",
+                                  list(set(book_names)))
+        self.register_ocp_keyword(MediaType.AUDIOBOOK,
+                                  "audiobook_streaming_provider",
+                                  ["HorrorBabble", "Horror Babble"])
 
     def get_playlist(self, score=50):
         return {
@@ -74,28 +69,44 @@ class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
 
     @ocp_search()
     def search_db(self, phrase, media_type):
-        base_score = self.match_skill(phrase, media_type)
-        if self.voc_match(phrase, "horrorbabble"):
-            if self.voc_match(phrase, "horrorbabble", exact=True):
-                base_score = 100
-            yield self.get_playlist(base_score)
+        base_score = 15 if media_type == MediaType.AUDIOBOOK else 0
+        entities = self.ocp_voc_match(phrase)
 
-        if media_type == MediaType.AUDIOBOOK:
-            # only search db if user explicitly requested audiobooks
-            phrase = self.normalize_title(phrase)
-            for url, video in self.archive.db.items():
+        author = entities.get("book_author")
+        title = entities.get("book_name")
+        source = entities.get('audiobook_streaming_provider', '')
+
+        if source == 'HorrorBabble':
+            base_score += 30
+
+        candidates = list(self.archive.values())
+        if title or author:
+
+            if author:
+                base_score += 30
+                candidates = [video for video in candidates
+                              if author.lower() in video["title"].lower()]
+            if title:
+                base_score += 30
+                candidates = [video for video in candidates
+                              if title.lower() in video["title"].lower()]
+
+            for video in candidates:
                 yield {
                     "title": video["title"],
-                    "author": "Horror Babble",
-                    "match_confidence": self.calc_score(phrase, video, base_score),
+                    "author": author or "Horror Babble",
+                    "match_confidence": min(100, base_score),
                     "media_type": MediaType.AUDIOBOOK,
-                    "uri": "youtube//" + url,
+                    "uri": "youtube//" + video["url"],
                     "playback": PlaybackType.AUDIO,
                     "skill_icon": self.skill_icon,
                     "skill_id": self.skill_id,
                     "image": video["thumbnail"],
                     "bg_image": self.default_bg
                 }
+
+        elif source == 'HorrorBabble':
+            yield self.get_playlist(min(100, base_score))
 
     @ocp_featured_media()
     def featured_media(self):
@@ -109,8 +120,4 @@ class HorrorBabbleSkill(OVOSCommonPlaybackSkill):
             "skill_icon": self.skill_icon,
             "bg_image": video["thumbnail"],
             "skill_id": self.skill_id
-        } for url, video in self.archive.db.items()]
-
-
-def create_skill():
-    return HorrorBabbleSkill()
+        } for url, video in self.archive.items()]
